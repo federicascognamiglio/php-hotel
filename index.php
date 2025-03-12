@@ -59,7 +59,23 @@
     <div class="container">
 
         <!-- Titke -->
-        <h1 class="mt-5 mb-5">Hotels</h1>
+        <h1 class="mt-5 mb-4">Hotels</h1>
+
+        <!-- Form -->
+        <form>
+            <div class="mb-3 w-25">
+                <label for="vote" class="form-label">Vote</label>
+                <input type="number" name="vote" class="form-control" id="vote" placeholder="ex.2" min="0" max="5">
+            </div>
+            <div class="d-flex align-items-center justify-content-between w-25 mb-5">
+                <div class="form-check">
+                    <input type="checkbox" name="parking" class="form-check-input" id="parking">
+                    <label class="form-check-label" for="parking">Parking</label>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+            </div>
+        </form>
+        <!-- /Form -->
 
         <!-- Table -->
         <table class="table table-striped">
