@@ -86,6 +86,11 @@
                             if($key == 'parking') {
                                 $value = $value ? 'Yes' : 'No';
                             }
+
+                            if ($key == 'distance_to_center') {
+                                $value = $value . ' km';
+                            }
+                            
                             echo "<td>$value</td>";
 
                         };
