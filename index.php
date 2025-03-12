@@ -38,6 +38,9 @@
         ],
         
         ];
+    
+    var_dump($_GET);
+    $params = $_GET;
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +61,7 @@
 
     <div class="container">
 
-        <!-- Titke -->
+        <!-- Title -->
         <h1 class="mt-5 mb-4">Hotels</h1>
 
         <!-- Form -->
@@ -82,7 +85,6 @@
             <thead>
                 <tr>
                     <?php 
-
                     // Stampo le chiavi dell'array associativo come intestazioni della tabella
                     forEach($hotels[0] as $key => $value) {
                         echo "<th scope='col'>$key</th>";
@@ -95,21 +97,62 @@
                 <?php
 
                     // Stampo i valori dell'array associativo come righe della tabella
-                    forEach($hotels as $curHotel) {
-                        echo "<tr>";
-                        forEach($curHotel as $key => $value) {
+                    if ($params["vote"] && $params["parking"]) {
 
-                            if($key == 'parking') {
-                                $value = $value ? 'Yes' : 'No';
+                        forEach($hotels as $curHotel) {
+                            if ($curHotel["vote"] >= $params["vote"] && $curHotel["parking"]) {
+                                echo "<tr>";
+                                forEach($curHotel as $key => $value) {
+        
+                                    if($key == 'parking') {
+                                        $value = $value ? 'Yes' : 'No';
+                                    }
+        
+                                    if ($key == 'distance_to_center') {
+                                        $value = $value . ' km';
+                                    }
+                                    
+                                    echo "<td>$value</td>";
+        
+                                };
+                            } else if ($params["vote"] || $params["parking"]) {
+
+                                if($params["vote"] && $curHotel["vote"] >= $params["vote"] || $params["parking"] && $curHotel["parking"]) {
+                                    echo "<tr>";
+                                    forEach($curHotel as $key => $value) {
+                
+                                        if($key == 'parking') {
+                                            $value = $value ? 'Yes' : 'No';
+                                        }
+                
+                                        if ($key == 'distance_to_center') {
+                                            $value = $value . ' km';
+                                        }
+                                        
+                                        echo "<td>$value</td>";
+                
+                                    }
+                                }
                             }
+                        }
+                    } else {
 
-                            if ($key == 'distance_to_center') {
-                                $value = $value . ' km';
-                            }
-                            
-                            echo "<td>$value</td>";
-
-                        };
+                        forEach($hotels as $curHotel) {
+                            echo "<tr>";
+                            forEach($curHotel as $key => $value) {
+        
+                                if($key == 'parking') {
+                                    $value = $value ? 'Yes' : 'No';
+                                }
+        
+                                if ($key == 'distance_to_center') {
+                                    $value = $value . ' km';
+                                }
+                                
+                                echo "<td>$value</td>";
+        
+                            };
+                        }
                     }
 
                 ?>
