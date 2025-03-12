@@ -78,10 +78,16 @@
             <tbody>
                 <?php
 
+                    // Stampo i valori dell'array associativo come righe della tabella
                     forEach($hotels as $curHotel) {
                         echo "<tr>";
                         forEach($curHotel as $key => $value) {
+
+                            if($key == 'parking') {
+                                $value = $value ? 'Yes' : 'No';
+                            }
                             echo "<td>$value</td>";
+
                         };
                     }
 
