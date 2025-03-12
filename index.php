@@ -1,4 +1,6 @@
 <?php
+    // DATA
+    // Array di hotel
     $hotels = [
 
         [
@@ -37,9 +39,9 @@
             'distance_to_center' => 50
         ],
         
-        ];
+    ];
     
-    var_dump($_GET);
+    // Parametri query string
     $params = $_GET;
 ?>
 
@@ -95,29 +97,21 @@
             </thead>
             <tbody>
                 <?php
-
                     // Stampo i valori dell'array associativo come righe della tabella
-                    if ($params["vote"] && $params["parking"]) {
+                    forEach($hotels as $curHotel) {
+                            $showHotel = true;
 
-                        forEach($hotels as $curHotel) {
-                            if ($curHotel["vote"] >= $params["vote"] && $curHotel["parking"]) {
-                                echo "<tr>";
-                                forEach($curHotel as $key => $value) {
-        
-                                    if($key == 'parking') {
-                                        $value = $value ? 'Yes' : 'No';
-                                    }
-        
-                                    if ($key == 'distance_to_center') {
-                                        $value = $value . ' km';
-                                    }
-                                    
-                                    echo "<td>$value</td>";
-        
-                                };
-                            } else if ($params["vote"] || $params["parking"]) {
+                            // Controllo se il voto è stato inserito e se è maggiore di quello dell'hotel corrente
+                            if ($params["vote"] !== '' && $curHotel["vote"] < $params["vote"]) {
+                                $showHotel = false;
+                            }
+                            // Controllo se il parcheggio è stato selezionato e se l'hotel corrente non ha il parcheggio
+                            if($params["parking"] == 'on' && !$curHotel["parking"]) {
+                                $showHotel = false;
+                            }
 
-                                if($params["vote"] && $curHotel["vote"] >= $params["vote"] || $params["parking"] && $curHotel["parking"]) {
+                            // Stampo la riga solo se $showHotel è true
+                            if($showHotel) {
                                     echo "<tr>";
                                     forEach($curHotel as $key => $value) {
                 
@@ -132,29 +126,8 @@
                                         echo "<td>$value</td>";
                 
                                     }
-                                }
                             }
-                        }
-                    } else {
-
-                        forEach($hotels as $curHotel) {
-                            echo "<tr>";
-                            forEach($curHotel as $key => $value) {
-        
-                                if($key == 'parking') {
-                                    $value = $value ? 'Yes' : 'No';
-                                }
-        
-                                if ($key == 'distance_to_center') {
-                                    $value = $value . ' km';
-                                }
-                                
-                                echo "<td>$value</td>";
-        
-                            };
-                        }
                     }
-
                 ?>
             </tbody>
         </table>
