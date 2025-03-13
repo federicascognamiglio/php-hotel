@@ -42,7 +42,8 @@
     ];
     
     // Parametri query string
-    $params = $_GET;
+    $vote_param = isset($_GET["vote"]) && is_numeric($_GET["vote"]) && $_GET["vote"] >= 0 && $_GET["vote"] <= 5 ? (int)$_GET["vote"] : 0;
+    $has_parking_param = isset($_GET["parking"]) && $_GET["parking"] == 'on' ? true : false;
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +68,7 @@
         <h1 class="mt-5 mb-4">Hotels</h1>
 
         <!-- Form -->
-        <form>
+        <form action="" method="GET">
             <div class="mb-3 w-25">
                 <label for="vote" class="form-label">Vote</label>
                 <input type="number" name="vote" class="form-control" id="vote" placeholder="ex.2" min="0" max="5">
@@ -91,7 +92,6 @@
                     forEach($hotels[0] as $key => $value) {
                         echo "<th scope='col'>$key</th>";
                     }
-
                 ?>
                 </tr>
             </thead>
@@ -101,12 +101,12 @@
                     forEach($hotels as $curHotel) {
                             $showHotel = true;
 
-                            // Controllo se il voto è stato inserito e se è maggiore di quello dell'hotel corrente
-                            if ($params["vote"] !== '' && $curHotel["vote"] < $params["vote"]) {
+                            // Controllo se il voto è maggiore di quello dell'hotel corrente
+                            if ($curHotel["vote"] < $vote_param) {
                                 $showHotel = false;
                             }
-                            // Controllo se il parcheggio è stato selezionato e se l'hotel corrente non ha il parcheggio
-                            if($params["parking"] == 'on' && !$curHotel["parking"]) {
+                            // Controllo se l'hotel corrente non ha il parcheggio
+                            if($has_parking_param && !$curHotel["parking"]) {
                                 $showHotel = false;
                             }
 
